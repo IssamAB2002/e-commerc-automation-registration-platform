@@ -1,0 +1,16 @@
+# Python / Django
+backend/.venv/
+backend/db.sqlite3
+backend/__pycache__/
+backend/**/__pycache__/
+backend/**/*.pyc
+
+# Node / Vite
+frontend/node_modules/
+frontend/dist/
+frontend/.env
+frontend/.env.*
+
+# Misc
+.DS_Store
+Thumbs.db
