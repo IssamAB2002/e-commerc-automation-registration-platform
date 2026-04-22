@@ -1,0 +1,113 @@
+import { T } from './designTokens.js'
+
+export const PLANS = [
+  {
+    id: 'starter',
+    name: 'Starter',
+    tagline: 'Launch your first automation',
+    monthlyPrice: 49,
+    annualPrice: 39,
+    color: T.cyan,
+    glow: T.cyanGlow,
+    popular: false,
+    group: '1 Group (up to 1 store)',
+    features: [
+      { label: '1 Make.com Workflow', ok: true },
+      { label: '1 Meta App', ok: true },
+      { label: 'Up to 1 client store', ok: true },
+      { label: '2,000 AI messages / mo', ok: true },
+      { label: 'WhatsApp & Messenger', ok: true },
+      { label: 'Basic analytics', ok: true },
+      { label: 'Push notifications', ok: false },
+      { label: 'Priority support', ok: false },
+      { label: 'Custom AI persona', ok: false },
+      { label: 'Multi-group management', ok: false },
+    ],
+  },
+  {
+    id: 'growth',
+    name: 'Growth',
+    tagline: 'Scale across multiple groups',
+    monthlyPrice: 149,
+    annualPrice: 119,
+    color: T.cyan,
+    glow: T.cyanGlow,
+    popular: true,
+    group: 'Up to 3 Groups (15 stores each)',
+    features: [
+      { label: '3 Make.com Workflows', ok: true },
+      { label: '3 Meta Apps', ok: true },
+      { label: 'Up to 45 client stores', ok: true },
+      { label: '15,000 AI messages / mo', ok: true },
+      { label: 'WhatsApp & Messenger', ok: true },
+      { label: 'Advanced analytics', ok: true },
+      { label: 'Push notifications', ok: true },
+      { label: 'Priority support', ok: true },
+      { label: 'Custom AI persona', ok: false },
+      { label: 'Multi-group management', ok: false },
+    ],
+  },
+  {
+    id: 'pro',
+    name: 'Pro',
+    tagline: 'Full-scale client operation',
+    monthlyPrice: 349,
+    annualPrice: 279,
+    color: T.orange,
+    glow: T.orangeGlow,
+    popular: false,
+    group: 'Unlimited Groups',
+    features: [
+      { label: 'Unlimited Workflows', ok: true },
+      { label: 'Unlimited Meta Apps', ok: true },
+      { label: 'Unlimited client stores', ok: true },
+      { label: '100,000 AI messages / mo', ok: true },
+      { label: 'WhatsApp & Messenger', ok: true },
+      { label: 'Full analytics suite', ok: true },
+      { label: 'Push notifications', ok: true },
+      { label: 'Dedicated support line', ok: true },
+      { label: 'Custom AI persona', ok: true },
+      { label: 'Multi-group management', ok: true },
+    ],
+  },
+]
+
+export const COMPARE_ROWS = [
+  { cat: 'Automation', label: 'Make.com Workflows', starter: '1', growth: '3', pro: 'Unlimited' },
+  { cat: 'Automation', label: 'Meta App Instances', starter: '1', growth: '3', pro: 'Unlimited' },
+  { cat: 'Capacity', label: 'Client Stores', starter: '1', growth: '45', pro: 'Unlimited' },
+  { cat: 'Capacity', label: 'AI Messages / mo', starter: '2,000', growth: '15,000', pro: '100,000' },
+  { cat: 'Messaging', label: 'WhatsApp API', starter: true, growth: true, pro: true },
+  { cat: 'Messaging', label: 'Messenger API', starter: true, growth: true, pro: true },
+  { cat: 'Messaging', label: 'Click-to-Chat Ads', starter: true, growth: true, pro: true },
+  { cat: 'Platform', label: 'Client Dashboard', starter: true, growth: true, pro: true },
+  { cat: 'Platform', label: 'Push Notifications', starter: false, growth: true, pro: true },
+  { cat: 'Platform', label: 'Custom AI Persona', starter: false, growth: false, pro: true },
+  { cat: 'Platform', label: 'Multi-group Mgmt', starter: false, growth: false, pro: true },
+  { cat: 'Support', label: 'Email Support', starter: true, growth: true, pro: true },
+  { cat: 'Support', label: 'Priority Support', starter: false, growth: true, pro: true },
+  { cat: 'Support', label: 'Dedicated Line', starter: false, growth: false, pro: true },
+]
+
+export const FAQS = [
+  {
+    q: 'What happens when a group reaches 15 clients?',
+    a: 'A new Make.com workflow and dedicated Meta App are automatically provisioned. Your next client registration goes into the fresh group — zero manual action needed.',
+  },
+  {
+    q: 'Can I upgrade or downgrade my plan anytime?',
+    a: 'Yes. Plan changes take effect immediately. Upgrading unlocks new groups instantly; downgrading is prorated to your billing cycle.',
+  },
+  {
+    q: 'How does the free trial work?',
+    a: 'The Starter plan includes a 1‑month free trial. After that, you get 20% off for the next 2 months before regular billing starts.',
+  },
+  {
+    q: 'Which Meta messaging channels are supported?',
+    a: 'WhatsApp Business API and Messenger API are both supported. Ads with Click-to-WhatsApp and Click-to-Messenger CTAs route directly into your AI workflows.',
+  },
+  {
+    q: 'What AI model powers the automation?',
+    a: "The messaging automation is powered by Claude (Anthropic's API) with multi-turn conversation memory persisted by sender ID across sessions.",
+  },
+]

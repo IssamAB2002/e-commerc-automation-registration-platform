@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 import ParticleBackground from '../components/ParticleBackground.jsx'
+import { hrefForPage, navigateTo } from '../utils/navigation.js'
 
 function CheckIcon(props) {
   return (
@@ -287,7 +288,7 @@ export default function HomePage() {
       iconClass: 'c2',
       icon: <StepIcon2 />,
       title: 'Auto Group Placement',
-      body: `The platform auto-assigns each client to a workflow group of 10–15 clients, balancing load across Make.com workflows and Meta Apps.`,
+      body: `The platform auto-assigns each client to a workflow group of 15 clients, balancing load across Make.com workflows and Meta Apps.`,
     },
     {
       num: '03',
@@ -408,13 +409,41 @@ export default function HomePage() {
               <a href="#features">Features</a>
             </li>
             <li>
-              <a href="#register">Pricing</a>
+              <a
+                href={hrefForPage('pricing')}
+                onClick={(e) => {
+                  e.preventDefault()
+                  navigateTo('pricing')
+                }}
+              >
+                Pricing
+              </a>
             </li>
           </ul>
 
-          <a href="#register" className="nav-cta">
-            Get Started →
-          </a>
+          <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
+            <a
+              href={hrefForPage('dashboard')}
+              onClick={(e) => {
+                e.preventDefault()
+                navigateTo('dashboard')
+              }}
+              style={{
+                color: '#e8edf5',
+                textDecoration: 'none',
+                fontSize: '0.875rem',
+                transition: 'color 0.3s ease',
+                cursor: 'pointer',
+              }}
+              onMouseEnter={(e) => (e.target.style.color = '#00d4ff')}
+              onMouseLeave={(e) => (e.target.style.color = '#e8edf5')}
+            >
+              Dashboard
+            </a>
+            <a href="#register" className="nav-cta">
+              Get Started →
+            </a>
+          </div>
         </div>
       </nav>
 
@@ -567,7 +596,7 @@ export default function HomePage() {
                 Distribution
               </h2>
               <p className="section-sub">
-                Each workflow handles exactly 10–15 clients and one dedicated
+                Each workflow handles exactly 15 clients and one dedicated
                 Meta App. This prevents API rate limits, distributes compute
                 load, and maximizes message delivery reliability.
               </p>
@@ -577,7 +606,7 @@ export default function HomePage() {
                     <CheckIcon />
                   </div>
                   <div>
-                    <h4>10–15 clients per Make.com workflow</h4>
+                    <h4>15 clients per Make.com workflow</h4>
                     <p>
                       Prevents workflow overloading and keeps execution times
                       predictable and fast.
@@ -772,4 +801,3 @@ export default function HomePage() {
     </>
   )
 }
-
