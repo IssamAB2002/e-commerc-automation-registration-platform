@@ -1,4 +1,4 @@
-import { T } from '../designTokens.js'
+import { T } from '../../../design/pages/subscription/designTokens.js'
 
 function TrustBadge({ icon, label, sub }) {
   return (

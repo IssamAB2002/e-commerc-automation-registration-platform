@@ -1,4 +1,4 @@
-import { T } from '../designTokens.js'
+import { T } from '../../../design/pages/subscription/designTokens.js'
 
 export default function BillingToggle({ billing, onChange }) {
   return (
@@ -79,4 +79,3 @@ export default function BillingToggle({ billing, onChange }) {
     </div>
   )
 }
-

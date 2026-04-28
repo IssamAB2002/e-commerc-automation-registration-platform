@@ -1,4 +1,4 @@
-import { T } from '../designTokens.js'
+import { T } from '../../../design/pages/dashboard/designTokens.js'
 
 export default function UserProfile({ userName = 'John Doe', userEmail = 'john@example.com', plan = 'Professional' }) {
   const initials = userName

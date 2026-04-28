@@ -1,4 +1,4 @@
-import { T } from '../designTokens.js'
+import { T } from '../../../design/pages/auth/designTokens.js'
 
 export default function AuthInput({
   label,

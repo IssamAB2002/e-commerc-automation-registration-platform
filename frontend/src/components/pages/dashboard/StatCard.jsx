@@ -1,4 +1,4 @@
-import { T } from '../designTokens.js'
+import { T } from '../../../design/pages/dashboard/designTokens.js'
 
 export default function StatCard({ label, value, change, changeType, icon, color = T.cyan }) {
   return (

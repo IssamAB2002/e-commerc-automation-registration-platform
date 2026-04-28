@@ -1,4 +1,4 @@
-import { T } from '../designTokens.js'
+import { T } from '../../../design/pages/subscription/designTokens.js'
 
 export function CheckIcon({ color = T.cyan }) {
   return (
@@ -40,4 +40,3 @@ export function CrossIcon() {
     </svg>
   )
 }
-

@@ -1,6 +1,6 @@
 import { useState } from 'react'
-import { T } from '../designTokens.js'
-import { FAQS } from '../data.js'
+import { T } from '../../../design/pages/subscription/designTokens.js'
+import { FAQS } from '../../../data/pages/subscription/data.js'
 
 function FAQItem({ q, a, defaultOpen = false }) {
   const [open, setOpen] = useState(defaultOpen)
@@ -92,4 +92,3 @@ export default function FAQList() {
     </div>
   )
 }
-

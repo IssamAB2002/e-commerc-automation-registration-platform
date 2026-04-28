@@ -1,4 +1,4 @@
-import { T } from '../designTokens.js'
+import { T } from '../../../design/pages/subscription/designTokens.js'
 
 export default function SectionTag({ label }) {
   return (
@@ -25,4 +25,3 @@ export default function SectionTag({ label }) {
     </div>
   )
 }
-

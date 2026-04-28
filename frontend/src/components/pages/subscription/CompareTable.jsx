@@ -1,6 +1,6 @@
-import { T } from '../designTokens.js'
+import { T } from '../../../design/pages/subscription/designTokens.js'
 import { CheckIcon, CrossIcon } from './Icons.jsx'
-import { COMPARE_ROWS } from '../data.js'
+import { COMPARE_ROWS } from '../../../data/pages/subscription/data.js'
 
 function CVal({ val, color = T.cyan }) {
   if (val === true) return <CheckIcon color={color} />
@@ -118,4 +118,3 @@ export default function CompareTable() {
     </div>
   )
 }
-

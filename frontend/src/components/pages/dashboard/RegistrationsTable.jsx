@@ -1,4 +1,4 @@
-import { T } from '../designTokens.js'
+import { T } from '../../../design/pages/dashboard/designTokens.js'
 
 export default function RegistrationsTable({ registrations }) {
   if (!registrations || registrations.length === 0) {

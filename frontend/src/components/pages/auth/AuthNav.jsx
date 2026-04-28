@@ -1,4 +1,4 @@
-import { T } from '../designTokens.js'
+import { T } from '../../../design/pages/auth/designTokens.js'
 import { hrefForPage, navigateTo } from '../../../utils/navigation.js'
 
 export default function AuthNav({ isSignUp = false }) {

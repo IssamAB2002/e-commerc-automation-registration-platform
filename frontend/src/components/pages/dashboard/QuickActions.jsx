@@ -1,4 +1,4 @@
-import { T } from '../designTokens.js'
+import { T } from '../../../design/pages/dashboard/designTokens.js'
 
 function PlusIcon(props) {
   return (

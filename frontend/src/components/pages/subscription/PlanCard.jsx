@@ -1,7 +1,7 @@
 import { useState } from 'react'
-import { T } from '../designTokens.js'
+import { T } from '../../../design/pages/subscription/designTokens.js'
 import { CheckIcon, CrossIcon } from './Icons.jsx'
-import { formatDA, toDzd } from '../money.js'
+import { formatDA, toDzd } from '../../../utils/pages/subscription/money.js'
 
 export default function PlanCard({ plan, billing, idx }) {
   const [hovered, setHovered] = useState(false)

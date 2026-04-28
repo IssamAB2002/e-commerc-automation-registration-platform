@@ -1,6 +1,6 @@
-import { useEffect, useMemo, useState } from 'react'
-import ParticleBackground from '../components/ParticleBackground.jsx'
-import { hrefForPage, navigateTo } from '../utils/navigation.js'
+import { useEffect, useMemo, useState } from "react";
+import ParticleBackground from "../components/ParticleBackground.jsx";
+import { hrefForPage, navigateTo } from "../utils/navigation.js";
 
 function CheckIcon(props) {
   return (
@@ -13,7 +13,7 @@ function CheckIcon(props) {
         strokeLinejoin="round"
       />
     </svg>
-  )
+  );
 }
 
 function PlayIcon(props) {
@@ -28,7 +28,7 @@ function PlayIcon(props) {
         strokeLinejoin="round"
       />
     </svg>
-  )
+  );
 }
 
 function StepIcon1() {
@@ -46,7 +46,7 @@ function StepIcon1() {
         strokeLinecap="round"
       />
     </svg>
-  )
+  );
 }
 
 function StepIcon2() {
@@ -86,7 +86,7 @@ function StepIcon2() {
         strokeLinecap="round"
       />
     </svg>
-  )
+  );
 }
 
 function StepIcon3() {
@@ -120,18 +120,42 @@ function StepIcon3() {
         strokeWidth="1.2"
       />
     </svg>
-  )
+  );
 }
 
 function FlowIconRegistration() {
   return (
     <svg viewBox="0 0 16 16" fill="none" aria-hidden="true">
       <rect x="2" y="2" width="5" height="5" rx="1.5" fill="#00d4ff" />
-      <rect x="9" y="2" width="5" height="5" rx="1.5" fill="#00d4ff" opacity=".4" />
-      <rect x="2" y="9" width="5" height="5" rx="1.5" fill="#00d4ff" opacity=".4" />
-      <rect x="9" y="9" width="5" height="5" rx="1.5" fill="#00d4ff" opacity=".7" />
+      <rect
+        x="9"
+        y="2"
+        width="5"
+        height="5"
+        rx="1.5"
+        fill="#00d4ff"
+        opacity=".4"
+      />
+      <rect
+        x="2"
+        y="9"
+        width="5"
+        height="5"
+        rx="1.5"
+        fill="#00d4ff"
+        opacity=".4"
+      />
+      <rect
+        x="9"
+        y="9"
+        width="5"
+        height="5"
+        rx="1.5"
+        fill="#00d4ff"
+        opacity=".7"
+      />
     </svg>
-  )
+  );
 }
 
 function FlowIconWorkflow() {
@@ -149,7 +173,7 @@ function FlowIconWorkflow() {
         strokeLinecap="round"
       />
     </svg>
-  )
+  );
 }
 
 function FlowIconMeta() {
@@ -163,7 +187,7 @@ function FlowIconMeta() {
         strokeLinejoin="round"
       />
     </svg>
-  )
+  );
 }
 
 function FeatureIconClock() {
@@ -181,7 +205,7 @@ function FeatureIconClock() {
         strokeLinecap="round"
       />
     </svg>
-  )
+  );
 }
 
 function FeatureIconChart() {
@@ -195,7 +219,7 @@ function FeatureIconChart() {
         strokeLinejoin="round"
       />
     </svg>
-  )
+  );
 }
 
 function FeatureIconMonitor() {
@@ -209,18 +233,26 @@ function FeatureIconMonitor() {
         strokeLinecap="round"
       />
     </svg>
-  )
+  );
 }
 
 function FeatureIconPortal() {
   return (
     <svg viewBox="0 0 20 20" fill="none" aria-hidden="true">
-      <rect x="3" y="5" width="14" height="10" rx="2" stroke="#00d4ff" strokeWidth="1.4" />
+      <rect
+        x="3"
+        y="5"
+        width="14"
+        height="10"
+        rx="2"
+        stroke="#00d4ff"
+        strokeWidth="1.4"
+      />
       <path d="M3 8h14" stroke="#00d4ff" strokeWidth="1.4" />
       <circle cx="7" cy="12" r="1" fill="#00d4ff" />
       <circle cx="10" cy="12" r="1" fill="#00d4ff" />
     </svg>
-  )
+  );
 }
 
 function FeatureIconScale() {
@@ -234,148 +266,156 @@ function FeatureIconScale() {
       />
       <circle cx="10" cy="10" r="7" stroke="#62bf62" strokeWidth="1.4" />
     </svg>
-  )
+  );
 }
 
 export default function HomePage() {
-  const [navScrolled, setNavScrolled] = useState(false)
+  const [navScrolled, setNavScrolled] = useState(false);
 
   const marqueeItems = useMemo(
     () => [
-      'Auto Group Assignment',
-      'Load Balancing',
-      'Real-Time Notifications',
-      'Meta App Distribution',
-      'Make.com Integration',
-      'AI Message Automation',
-      'Client Dashboard',
+      "Auto Group Assignment",
+      "Load Balancing",
+      "Real-Time Notifications",
+      "Meta App Distribution",
+      "Make.com Integration",
+      "AI Message Automation",
+      "Client Dashboard",
     ],
     [],
-  )
+  );
 
   useEffect(() => {
-    const onScroll = () => setNavScrolled(window.scrollY > 40)
-    onScroll()
-    window.addEventListener('scroll', onScroll, { passive: true })
-    return () => window.removeEventListener('scroll', onScroll)
-  }, [])
+    const onScroll = () => setNavScrolled(window.scrollY > 40);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   useEffect(() => {
     const obs = new IntersectionObserver(
       (entries) => {
         for (const entry of entries) {
-          if (entry.isIntersecting) entry.target.classList.add('visible')
+          if (entry.isIntersecting) entry.target.classList.add("visible");
         }
       },
       { threshold: 0.12 },
-    )
+    );
 
-    const els = document.querySelectorAll('.scroll-reveal')
-    for (const el of els) obs.observe(el)
-    return () => obs.disconnect()
-  }, [])
+    const els = document.querySelectorAll(".scroll-reveal");
+    for (const el of els) obs.observe(el);
+    return () => obs.disconnect();
+  }, []);
 
   const steps = [
     {
-      num: '01',
-      iconClass: 'c1',
+      num: "01",
+      iconClass: "c1",
       icon: <StepIcon1 />,
-      title: 'Client Registers',
+      title: "Client Registers",
       body: `Store owners sign up with their business info and Meta credentials. Our system validates and queues them instantly.`,
     },
     {
-      num: '02',
-      iconClass: 'c2',
+      num: "02",
+      iconClass: "c2",
       icon: <StepIcon2 />,
-      title: 'Auto Group Placement',
+      title: "Auto Group Placement",
       body: `The platform auto-assigns each client to a workflow group of 15 clients, balancing load across Make.com workflows and Meta Apps.`,
     },
     {
-      num: '03',
-      iconClass: 'c3',
+      num: "03",
+      iconClass: "c3",
       icon: <StepIcon3 />,
-      title: 'Automation Runs',
+      title: "Automation Runs",
       body: `AI-powered messaging flows activate automatically. Clients receive smart notifications. You manage everything from one dashboard.`,
     },
-  ]
+  ];
 
   const groups = [
     {
-      key: 'g1',
-      name: 'Group Alpha',
-      nameColor: 'var(--cyan)',
-      cap: 'Make Workflow #1 · Meta App A',
-      badge: '12 / 15',
-      badgeClass: 'nb-active',
-      fillClass: 'gf1',
+      key: "g1",
+      name: "Group Alpha",
+      nameColor: "var(--cyan)",
+      cap: "Make Workflow #1 · Meta App A",
+      badge: "12 / 15",
+      badgeClass: "nb-active",
+      fillClass: "gf1",
       clients: 12,
     },
     {
-      key: 'g2',
-      name: 'Group Beta',
-      nameColor: 'var(--orange)',
-      cap: 'Make Workflow #2 · Meta App B',
-      badge: '9 / 15',
-      badgeClass: 'nb-pending',
-      fillClass: 'gf2',
+      key: "g2",
+      name: "Group Beta",
+      nameColor: "var(--orange)",
+      cap: "Make Workflow #2 · Meta App B",
+      badge: "9 / 15",
+      badgeClass: "nb-pending",
+      fillClass: "gf2",
       clients: 9,
     },
     {
-      key: 'g3',
-      name: 'Group Gamma',
-      nameColor: '#9b64ff',
-      cap: 'Make Workflow #3 · Meta App C',
-      badge: '6 / 15',
-      badgeStyle: { background: 'rgba(155,100,255,0.1)', color: '#9b64ff' },
-      fillClass: 'gf3',
+      key: "g3",
+      name: "Group Gamma",
+      nameColor: "#9b64ff",
+      cap: "Make Workflow #3 · Meta App C",
+      badge: "6 / 15",
+      badgeStyle: { background: "rgba(155,100,255,0.1)", color: "#9b64ff" },
+      fillClass: "gf3",
       clients: 6,
     },
-  ]
+  ];
 
   const features = [
     {
-      title: 'Instant Group Assignment',
+      title: "Instant Group Assignment",
       body: `Every registered client is automatically placed into the least-loaded group. Zero manual configuration needed.`,
       icon: <FeatureIconClock />,
-      iconClass: 'ic-cyan',
+      iconClass: "ic-cyan",
     },
     {
-      title: 'Performance Dashboard',
+      title: "Performance Dashboard",
       body: `Live metrics per group — message delivery rate, workflow health, Meta App quota usage, and client activity.`,
       icon: <FeatureIconChart />,
-      iconClass: 'ic-orange',
+      iconClass: "ic-orange",
     },
     {
-      title: 'Push Notifications',
-      body: `Broadcast system updates, maintenance windows, or feature announcements directly to client dashboards or WhatsApp.`,
+      title: "Push Notifications",
+      body: `Broadcast system updates, maintenance windows, or feature announcements directly to client dashboards`,
       icon: <FeatureIconMonitor />,
-      iconClass: 'ic-purple',
+      iconClass: "ic-purple",
     },
     {
-      title: 'Client Portal',
+      title: "Client Portal",
       body: `Each client gets a branded portal showing their group assignment, automation status, message logs, and next billing cycle. They stay informed without ever reaching your inbox.`,
       icon: <FeatureIconPortal />,
-      iconClass: 'ic-cyan',
+      iconClass: "ic-cyan",
       wide: true,
     },
     {
-      title: 'Auto-Scale Groups',
+      title: "Auto-Scale Groups",
       body: `When a group fills up, the system automatically provisions a new workflow + Meta App pairing. Infinitely scalable.`,
       icon: <FeatureIconScale />,
-      iconClass: 'ic-green',
+      iconClass: "ic-green",
     },
-  ]
+  ];
 
   return (
     <>
       <ParticleBackground />
 
-      <nav className={navScrolled ? 'nav-scrolled' : undefined}>
+      <nav className={navScrolled ? "nav-scrolled" : undefined}>
         <div className="wrap nav-inner">
           <a href="#" className="logo" aria-label="EcomAuto home">
             <div className="logo-icon" aria-hidden="true">
-              <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <rect width="32" height="32" rx="8" fill="rgba(0,212,255,0.08)" />
+              <svg
+                viewBox="0 0 32 32"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg">
+                <rect
+                  width="32"
+                  height="32"
+                  rx="8"
+                  fill="rgba(0,212,255,0.08)"
+                />
                 <path
                   d="M8 16L14 10L20 16L26 10"
                   stroke="#00d4ff"
@@ -410,34 +450,32 @@ export default function HomePage() {
             </li>
             <li>
               <a
-                href={hrefForPage('pricing')}
+                href={hrefForPage("pricing")}
                 onClick={(e) => {
-                  e.preventDefault()
-                  navigateTo('pricing')
-                }}
-              >
+                  e.preventDefault();
+                  navigateTo("pricing");
+                }}>
                 Pricing
               </a>
             </li>
           </ul>
 
-          <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
+          <div style={{ display: "flex", gap: "1rem", alignItems: "center" }}>
             <a
-              href={hrefForPage('dashboard')}
+              href={hrefForPage("dashboard")}
               onClick={(e) => {
-                e.preventDefault()
-                navigateTo('dashboard')
+                e.preventDefault();
+                navigateTo("dashboard");
               }}
               style={{
-                color: '#e8edf5',
-                textDecoration: 'none',
-                fontSize: '0.875rem',
-                transition: 'color 0.3s ease',
-                cursor: 'pointer',
+                color: "#e8edf5",
+                textDecoration: "none",
+                fontSize: "0.875rem",
+                transition: "color 0.3s ease",
+                cursor: "pointer",
               }}
-              onMouseEnter={(e) => (e.target.style.color = '#00d4ff')}
-              onMouseLeave={(e) => (e.target.style.color = '#e8edf5')}
-            >
+              onMouseEnter={(e) => (e.target.style.color = "#00d4ff")}
+              onMouseLeave={(e) => (e.target.style.color = "#e8edf5")}>
               Dashboard
             </a>
             <a href="#register" className="nav-cta">
@@ -512,9 +550,7 @@ export default function HomePage() {
                     </div>
                     <div className="node-info">
                       <div className="node-label">Meta Messaging API</div>
-                      <div className="node-sub">
-                        Distributed across 4 apps
-                      </div>
+                      <div className="node-sub">Distributed across 4 apps</div>
                     </div>
                     <span className="node-badge nb-ok">Active</span>
                   </div>
@@ -545,8 +581,7 @@ export default function HomePage() {
             <div
               className="marquee-item"
               key={`${item}-${idx}`}
-              aria-hidden={idx >= marqueeItems.length ? 'true' : undefined}
-            >
+              aria-hidden={idx >= marqueeItems.length ? "true" : undefined}>
               <CheckIcon />
               {item}
             </div>
@@ -596,9 +631,9 @@ export default function HomePage() {
                 Distribution
               </h2>
               <p className="section-sub">
-                Each workflow handles exactly 15 clients and one dedicated
-                Meta App. This prevents API rate limits, distributes compute
-                load, and maximizes message delivery reliability.
+                Each workflow handles exactly 15 clients and one dedicated Meta
+                App. This prevents API rate limits, distributes compute load,
+                and maximizes message delivery reliability.
               </p>
               <div className="feature-list">
                 <div className="feat-item">
@@ -645,15 +680,16 @@ export default function HomePage() {
                 <div className={`group-block ${g.key}`} key={g.key}>
                   <div className="group-header">
                     <div>
-                      <div className="group-name" style={{ color: g.nameColor }}>
+                      <div
+                        className="group-name"
+                        style={{ color: g.nameColor }}>
                         {g.name}
                       </div>
                       <div className="group-cap">{g.cap}</div>
                     </div>
                     <span
-                      className={`node-badge ${g.badgeClass || ''}`.trim()}
-                      style={g.badgeStyle}
-                    >
+                      className={`node-badge ${g.badgeClass || ""}`.trim()}
+                      style={g.badgeStyle}>
                       {g.badge}
                     </span>
                   </div>
@@ -663,7 +699,7 @@ export default function HomePage() {
                   <div className={`group-ring ${g.key} group-ring-compact`}>
                     {Array.from({ length: g.clients }, (_, i) => (
                       <div className="client-dot" key={`${g.key}-c${i}`}>
-                        {`C${String(i + 1).padStart(2, '0')}`}
+                        {`C${String(i + 1).padStart(2, "0")}`}
                       </div>
                     ))}
                   </div>
@@ -688,21 +724,22 @@ export default function HomePage() {
           </div>
           <div className="features-grid scroll-reveal">
             {features.map((f) => (
-              <div className={`feat-card${f.wide ? ' wide' : ''}`} key={f.title}>
+              <div
+                className={`feat-card${f.wide ? " wide" : ""}`}
+                key={f.title}>
                 <div className={`ic ${f.iconClass}`}>{f.icon}</div>
                 <h3>{f.title}</h3>
                 <p>{f.body}</p>
 
-                {f.title === 'Client Portal' ? (
+                {f.title === "Client Portal" ? (
                   <div className="notif-preview">
                     <div className="notif-item">
                       <div
                         className="notif-avatar"
                         style={{
-                          background: 'rgba(0,212,255,0.1)',
-                          color: 'var(--cyan)',
-                        }}
-                      >
+                          background: "rgba(0,212,255,0.1)",
+                          color: "var(--cyan)",
+                        }}>
                         MK
                       </div>
                       <div className="notif-body">
@@ -717,10 +754,9 @@ export default function HomePage() {
                       <div
                         className="notif-avatar"
                         style={{
-                          background: 'rgba(98,191,98,0.1)',
-                          color: '#62bf62',
-                        }}
-                      >
+                          background: "rgba(98,191,98,0.1)",
+                          color: "#62bf62",
+                        }}>
                         SA
                       </div>
                       <div className="notif-body">
@@ -729,16 +765,18 @@ export default function HomePage() {
                         </div>
                         <div className="nb-time">1 hour ago</div>
                       </div>
-                      <div className="notif-status ns-sent" aria-hidden="true" />
+                      <div
+                        className="notif-status ns-sent"
+                        aria-hidden="true"
+                      />
                     </div>
                     <div className="notif-item">
                       <div
                         className="notif-avatar"
                         style={{
-                          background: 'rgba(255,107,43,0.1)',
-                          color: 'var(--orange)',
-                        }}
-                      >
+                          background: "rgba(255,107,43,0.1)",
+                          color: "var(--orange)",
+                        }}>
                         SYS
                       </div>
                       <div className="notif-body">
@@ -771,15 +809,11 @@ export default function HomePage() {
               Join the waitlist — your store gets onboarded and grouped
               automatically.
             </p>
-            <form className="cta-form" onSubmit={(e) => e.preventDefault()}>
-              <input
-                type="email"
-                placeholder="your@store.com"
-                autoComplete="email"
-                aria-label="Email address"
-              />
-              <button type="submit">Join Waitlist</button>
-            </form>
+            <div className="cta-form" style={{ display: "flex", justifyContent: "center" }}>
+              <button type="button" onClick={() => navigateTo("signup")}>
+                Join Waitlist
+              </button>
+            </div>
           </div>
         </div>
       </section>
@@ -795,9 +829,11 @@ export default function HomePage() {
             <a href="#">Docs</a>
             <a href="#">Contact</a>
           </div>
-          <div className="footer-copy">© 2025 EcomAuto. All rights reserved.</div>
+          <div className="footer-copy">
+            © 2025 EcomAuto. All rights reserved.
+          </div>
         </div>
       </footer>
     </>
-  )
+  );
 }

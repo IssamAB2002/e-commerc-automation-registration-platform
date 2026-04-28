@@ -1,4 +1,4 @@
-import { T } from '../designTokens.js'
+import { T } from '../../../design/pages/subscription/designTokens.js'
 import { hrefForPage, navigateTo } from '../../../utils/navigation.js'
 
 export default function Nav({ scrolled }) {
@@ -133,4 +133,3 @@ export default function Nav({ scrolled }) {
     </nav>
   )
 }
-

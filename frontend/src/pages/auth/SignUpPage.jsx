@@ -1,11 +1,11 @@
 import { useState } from 'react'
-import { T } from './designTokens.js'
+import { T } from '../../design/pages/auth/designTokens.js'
 import ParticleBackground from '../../components/ParticleBackground.jsx'
-import AuthNav from './components/AuthNav.jsx'
-import AuthInput from './components/AuthInput.jsx'
-import AuthButton from './components/AuthButton.jsx'
+import AuthNav from '../../components/pages/auth/AuthNav.jsx'
+import AuthInput from '../../components/pages/auth/AuthInput.jsx'
+import AuthButton from '../../components/pages/auth/AuthButton.jsx'
 import { navigateTo } from '../../utils/navigation.js'
-import './auth.css'
+import '../../styles/pages/auth/auth.css'
 
 export default function SignUpPage() {
   const [formData, setFormData] = useState({

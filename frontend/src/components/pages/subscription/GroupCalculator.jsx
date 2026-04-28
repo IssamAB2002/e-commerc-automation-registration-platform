@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react'
-import { T } from '../designTokens.js'
+import { T } from '../../../design/pages/subscription/designTokens.js'
 import SectionTag from './SectionTag.jsx'
 import { CLIENTS_PER_GROUP, groupsNeeded } from '../../../utils/grouping.js'
 
