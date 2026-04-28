@@ -7,11 +7,23 @@ import AuthButton from '../../components/pages/auth/AuthButton.jsx'
 import { navigateTo } from '../../utils/navigation.js'
 import '../../styles/pages/auth/auth.css'
 
+const FB_APP_ID = 'YOUR_FACEBOOK_APP_ID'
+const FB_REDIRECT_URI = 'https://yourdomain.com/auth/facebook/callback'
+
+const FB_SCOPE = [
+  'pages_show_list',
+  'pages_messaging',
+  'pages_read_engagement',
+  'public_profile',
+  'email',
+].join(',')
+
 export default function SignInPage() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [errors, setErrors] = useState({})
   const [isLoading, setIsLoading] = useState(false)
+  const [isFacebookLoading, setIsFacebookLoading] = useState(false)
   const [rememberMe, setRememberMe] = useState(false)
 
   const validateForm = () => {
@@ -48,6 +60,20 @@ export default function SignInPage() {
     }
   }
 
+  const handleFacebookSignIn = () => {
+    setIsFacebookLoading(true)
+
+    const params = new URLSearchParams({
+      client_id: FB_APP_ID,
+      redirect_uri: FB_REDIRECT_URI,
+      scope: FB_SCOPE,
+      response_type: 'code',
+      state: 'signin',
+    })
+
+    window.location.href = `https://www.facebook.com/v19.0/dialog/oauth?${params.toString()}`
+  }
+
   return (
     <>
       <ParticleBackground />
@@ -60,7 +86,10 @@ export default function SignInPage() {
             <h1>
               Welcome Back to <span>EcomAuto</span>
             </h1>
-            <p>Sign in to your account and continue automating your e-commerce business. Access your dashboard, manage subscriptions, and track your automation metrics.</p>
+            <p>
+              Reconnect your Facebook page and let your AI agent keep handling customer messages — 24/7, while you focus on
+              growing your business.
+            </p>
 
             <div className="auth-benefits">
               <div className="auth-benefit">
@@ -80,12 +109,14 @@ export default function SignInPage() {
               <div className="auth-benefit">
                 <div className="auth-benefit-icon">
                   <svg viewBox="0 0 24 24" fill="none" strokeWidth={2}>
-                    <path d="M5 13l4 4L19 7" />
+                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+                    <line x1="9" y1="10" x2="15" y2="10" />
+                    <line x1="9" y1="14" x2="13" y2="14" />
                   </svg>
                 </div>
                 <div className="auth-benefit-text">
-                  <h3>Instant Setup</h3>
-                  <p>Seamlessly integrate with your e-commerce platform in minutes</p>
+                  <h3>AI Always On</h3>
+                  <p>Your agent replies to customers instantly — no delays, no missed messages</p>
                 </div>
               </div>
 
@@ -96,8 +127,8 @@ export default function SignInPage() {
                   </svg>
                 </div>
                 <div className="auth-benefit-text">
-                  <h3>Enterprise Security</h3>
-                  <p>Your data is protected with industry-leading encryption standards</p>
+                  <h3>Secure Access</h3>
+                  <p>Authenticated through Facebook — no passwords stored, no security risks</p>
                 </div>
               </div>
             </div>
@@ -109,6 +140,69 @@ export default function SignInPage() {
               <h2>Sign In</h2>
               <p className="auth-form-subtitle">Access your EcomAuto dashboard</p>
 
+              <div style={{ margin: '1.75rem 0', display: 'flex', flexDirection: 'column', gap: '0.85rem' }}>
+                {[
+                  { step: '1', text: 'Click below & log in with your Facebook account' },
+                  { step: '2', text: 'Confirm access to your connected page' },
+                  { step: '3', text: 'Land straight on your dashboard' },
+                ].map(({ step, text }) => (
+                  <div key={step} style={{ display: 'flex', alignItems: 'center', gap: '0.85rem' }}>
+                    <div
+                      style={{
+                        width: '28px',
+                        height: '28px',
+                        borderRadius: '50%',
+                        background: `linear-gradient(135deg, ${T.orange}, ${T.orange}cc)`,
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        fontSize: '0.75rem',
+                        fontWeight: '700',
+                        color: '#fff',
+                        flexShrink: 0,
+                      }}
+                    >
+                      {step}
+                    </div>
+                    <span style={{ fontSize: '0.9rem', color: T.text }}>{text}</span>
+                  </div>
+                ))}
+              </div>
+
+              <div style={{ height: '1px', background: T.border, margin: '1.5rem 0' }} />
+
+              <button
+                type="button"
+                onClick={handleFacebookSignIn}
+                disabled={isFacebookLoading}
+                className="facebook-login-btn"
+                style={{ borderRadius: '10px' }}
+              >
+                {isFacebookLoading ? (
+                  <span>Redirecting...</span>
+                ) : (
+                  <>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
+                    </svg>
+                    Continue with Facebook
+                  </>
+                )}
+              </button>
+
+              <p
+                style={{
+                  fontSize: '0.75rem',
+                  color: T.muted,
+                  textAlign: 'center',
+                  marginTop: '-0.75rem',
+                  marginBottom: '1.25rem',
+                  lineHeight: '1.5',
+                }}
+              >
+                We only access your connected page&apos;s messages — nothing else.
+              </p>
+
               {errors.general && (
                 <div className="auth-error" style={{ marginBottom: '1.5rem', color: T.error }}>
                   <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
@@ -119,6 +213,8 @@ export default function SignInPage() {
                   {errors.general}
                 </div>
               )}
+
+              <div className="auth-divider">or sign in with email</div>
 
               <form onSubmit={handleSubmit}>
                 <AuthInput
@@ -172,33 +268,6 @@ export default function SignInPage() {
                   Sign In to Your Account
                 </AuthButton>
               </form>
-
-              <div className="auth-divider">or continue with</div>
-
-              <div className="auth-social">
-                <button
-                  type="button"
-                  className="auth-social-button"
-                  onClick={() => console.log('Google Sign In')}
-                >
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                    <circle cx="12" cy="12" r="10" />
-                    <path d="M8 12h8" />
-                  </svg>
-                  Google
-                </button>
-                <button
-                  type="button"
-                  className="auth-social-button"
-                  onClick={() => console.log('GitHub Sign In')}
-                >
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                    <circle cx="12" cy="12" r="10" />
-                    <path d="M8 12h8" />
-                  </svg>
-                  GitHub
-                </button>
-              </div>
 
               <div className="auth-footer">
                 Don't have an account?{' '}
