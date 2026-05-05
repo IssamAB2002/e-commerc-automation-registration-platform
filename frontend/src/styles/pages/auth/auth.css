@@ -411,20 +411,22 @@
 }
 
 .auth-nav-cta {
-  background: linear-gradient(135deg, #00d4ff 0%, #00b8cc 100%);
+  background: #00d4ff;
   color: #04080f;
-  font-weight: 600;
-  font-size: 0.8rem;
-  padding: 0.6rem 1.2rem;
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+  font-size: .85rem;
+  padding: .55rem 1.3rem;
   border-radius: 6px;
   text-decoration: none;
-  transition: all 0.2s;
+  transition: all .2s;
+  letter-spacing: .02em;
   border: none;
   cursor: pointer;
 }
 
 .auth-nav-cta:hover {
-  background: linear-gradient(135deg, #00eeff 0%, #00d4ff 100%);
+  background: #00eeff;
   box-shadow: 0 0 20px rgba(0, 212, 255, 0.4);
 }
 

@@ -2,6 +2,7 @@ import { useMemo, useState } from 'react'
 import { T } from '../../../design/pages/subscription/designTokens.js'
 import SectionTag from './SectionTag.jsx'
 import { CLIENTS_PER_GROUP, groupsNeeded } from '../../../utils/grouping.js'
+import { navigateTo } from '../../../utils/navigation.js'
 
 export default function GroupCalculator() {
   const [clients, setClients] = useState(30)
@@ -156,6 +157,7 @@ export default function GroupCalculator() {
                 }}
                 onMouseEnter={(e) => (e.currentTarget.style.boxShadow = '0 0 38px rgba(0,212,255,0.4)')}
                 onMouseLeave={(e) => (e.currentTarget.style.boxShadow = '0 0 24px rgba(0,212,255,0.2)')}
+                onClick={() => navigateTo('signup')}
               >
                 Get Started with {plan} →
               </button>

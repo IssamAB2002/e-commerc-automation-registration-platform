@@ -17,6 +17,20 @@ export const clearTokens = () => {
 
 export const isAuthenticated = () => !!localStorage.getItem('access_token')
 
+export const getUser = () => {
+  const { access } = getTokens()
+  if (!access) return null
+  try {
+    const payload = JSON.parse(atob(access.split('.')[1]))
+    return {
+      firstName: payload.first_name || '',
+      avatarUrl: payload.avatar_url || '',
+    }
+  } catch {
+    return null
+  }
+}
+
 async function refreshAccessToken() {
   const { refresh } = getTokens()
   if (!refresh) throw new Error('No refresh token')

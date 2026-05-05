@@ -2,62 +2,23 @@ import { useState } from 'react'
 import { T } from '../../design/pages/auth/designTokens.js'
 import ParticleBackground from '../../components/ParticleBackground.jsx'
 import AuthNav from '../../components/pages/auth/AuthNav.jsx'
-import AuthInput from '../../components/pages/auth/AuthInput.jsx'
-import AuthButton from '../../components/pages/auth/AuthButton.jsx'
 import { navigateTo } from '../../utils/navigation.js'
-import { login, getFacebookAuthUrl, saveAuthTokens } from '../../api/auth.js'
+import { getFacebookAuthUrl } from '../../api/auth.js'
 import '../../styles/pages/auth/auth.css'
 
 export default function SignInPage({ onNavigate }) {
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [errors, setErrors] = useState({})
   const [isLoading, setIsLoading] = useState(false)
-  const [isFacebookLoading, setIsFacebookLoading] = useState(false)
-  const [rememberMe, setRememberMe] = useState(false)
-
-  const validateForm = () => {
-    const newErrors = {}
-    if (!email) newErrors.email = 'Email is required'
-    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) newErrors.email = 'Invalid email format'
-    if (!password) newErrors.password = 'Password is required'
-    else if (password.length < 6) newErrors.password = 'Password must be at least 6 characters'
-    return newErrors
-  }
-
-  const handleSubmit = async (e) => {
-    e.preventDefault()
-    const newErrors = validateForm()
-
-    if (Object.keys(newErrors).length > 0) {
-      setErrors(newErrors)
-      return
-    }
-
-    setIsLoading(true)
-    setErrors({})
-
-    try {
-      const data = await login(email, password)
-      saveAuthTokens(data)
-      if (onNavigate) onNavigate('dashboard')
-      else navigateTo('dashboard')
-    } catch (err) {
-      const msg = err?.detail || err?.non_field_errors?.[0] || 'Sign in failed. Please try again.'
-      setErrors({ general: msg })
-    } finally {
-      setIsLoading(false)
-    }
-  }
+  const [error, setError] = useState('')
 
   const handleFacebookSignIn = async () => {
-    setIsFacebookLoading(true)
+    setIsLoading(true)
+    setError('')
     try {
       const data = await getFacebookAuthUrl()
       window.location.href = data.auth_url
     } catch {
-      setErrors({ general: 'Could not initiate Facebook login. Please try again.' })
-      setIsFacebookLoading(false)
+      setError('Could not initiate Facebook login. Please try again.')
+      setIsLoading(false)
     }
   }
 
@@ -68,7 +29,7 @@ export default function SignInPage({ onNavigate }) {
 
       <div className="auth-container" style={{ paddingTop: '5rem' }}>
         <div className="auth-wrapper">
-          {/* Left Side - Content */}
+          {/* Left Side */}
           <div className="auth-content">
             <h1>
               Welcome Back to <span>EcomAuto</span>
@@ -121,7 +82,7 @@ export default function SignInPage({ onNavigate }) {
             </div>
           </div>
 
-          {/* Right Side - Form */}
+          {/* Right Side */}
           <div className="auth-form-container">
             <div className="auth-form-box">
               <h2>Sign In</h2>
@@ -156,16 +117,27 @@ export default function SignInPage({ onNavigate }) {
                 ))}
               </div>
 
-              <div style={{ height: '1px', background: T.border, margin: '1.5rem 0' }} />
+              <div style={{ height: '1px', background: T.border, marginBottom: '1.5rem' }} />
+
+              {error && (
+                <div className="auth-error" style={{ marginBottom: '1.25rem', color: T.error }}>
+                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                    <circle cx="7" cy="7" r="6" stroke="currentColor" strokeWidth="1.5" />
+                    <line x1="7" y1="3.5" x2="7" y2="8.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+                    <circle cx="7" cy="10.5" r="0.5" fill="currentColor" />
+                  </svg>
+                  {error}
+                </div>
+              )}
 
               <button
                 type="button"
                 onClick={handleFacebookSignIn}
-                disabled={isFacebookLoading}
+                disabled={isLoading}
                 className="facebook-login-btn"
                 style={{ borderRadius: '10px' }}
               >
-                {isFacebookLoading ? (
+                {isLoading ? (
                   <span>Redirecting...</span>
                 ) : (
                   <>
@@ -183,88 +155,15 @@ export default function SignInPage({ onNavigate }) {
                   color: T.muted,
                   textAlign: 'center',
                   marginTop: '-0.75rem',
-                  marginBottom: '1.25rem',
                   lineHeight: '1.5',
                 }}
               >
                 We only access your connected page&apos;s messages — nothing else.
               </p>
 
-              {errors.general && (
-                <div className="auth-error" style={{ marginBottom: '1.5rem', color: T.error }}>
-                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                    <circle cx="7" cy="7" r="6" stroke="currentColor" strokeWidth="1.5" />
-                    <line x1="7" y1="3.5" x2="7" y2="8.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-                    <circle cx="7" cy="10.5" r="0.5" fill="currentColor" />
-                  </svg>
-                  {errors.general}
-                </div>
-              )}
-
-              <div className="auth-divider">or sign in with email</div>
-
-              <form onSubmit={handleSubmit}>
-                <AuthInput
-                  label="Email Address"
-                  type="email"
-                  placeholder="you@example.com"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  error={errors.email}
-                  required
-                />
-
-                <AuthInput
-                  label="Password"
-                  type="password"
-                  placeholder="Enter your password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  error={errors.password}
-                  required
-                />
-
-                <div className="auth-checkbox">
-                  <input
-                    type="checkbox"
-                    id="remember"
-                    checked={rememberMe}
-                    onChange={(e) => setRememberMe(e.target.checked)}
-                    className="checkbox-input"
-                  />
-                  <label htmlFor="remember">Remember me on this device</label>
-                </div>
-
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1.5rem' }}>
-                  <span></span>
-                  <a
-                    href="#"
-                    onClick={(e) => {
-                      e.preventDefault()
-                      // navigateTo('forgot-password')
-                    }}
-                    style={{ color: T.cyan, textDecoration: 'none', fontSize: '0.85rem', transition: 'color 0.2s' }}
-                    onMouseEnter={(e) => (e.currentTarget.style.color = '#00eeff')}
-                    onMouseLeave={(e) => (e.currentTarget.style.color = T.cyan)}
-                  >
-                    Forgot password?
-                  </a>
-                </div>
-
-                <AuthButton type="submit" isLoading={isLoading}>
-                  Sign In to Your Account
-                </AuthButton>
-              </form>
-
               <div className="auth-footer">
-                Don't have an account?{' '}
-                <a
-                  href="#"
-                  onClick={(e) => {
-                    e.preventDefault()
-                    navigateTo('signup')
-                  }}
-                >
+                Don&apos;t have an account?{' '}
+                <a href="#" onClick={(e) => { e.preventDefault(); navigateTo('signup') }}>
                   Create one
                 </a>
               </div>

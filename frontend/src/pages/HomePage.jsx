@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import ParticleBackground from "../components/ParticleBackground.jsx";
 import { hrefForPage, navigateTo } from "../utils/navigation.js";
+import { isAuthenticated } from "../api/client.js";
 
 function CheckIcon(props) {
   return (
@@ -271,6 +272,7 @@ function FeatureIconScale() {
 
 export default function HomePage() {
   const [navScrolled, setNavScrolled] = useState(false);
+  const [isLoggedIn] = useState(isAuthenticated);
 
   const marqueeItems = useMemo(
     () => [
@@ -461,26 +463,27 @@ export default function HomePage() {
           </ul>
 
           <div style={{ display: "flex", gap: "1rem", alignItems: "center" }}>
-            <a
-              href={hrefForPage("dashboard")}
-              onClick={(e) => {
-                e.preventDefault();
-                navigateTo("dashboard");
-              }}
-              style={{
-                color: "#e8edf5",
-                textDecoration: "none",
-                fontSize: "0.875rem",
-                transition: "color 0.3s ease",
-                cursor: "pointer",
-              }}
-              onMouseEnter={(e) => (e.target.style.color = "#00d4ff")}
-              onMouseLeave={(e) => (e.target.style.color = "#e8edf5")}>
-              Dashboard
-            </a>
-            <a href="#register" className="nav-cta">
-              Get Started →
-            </a>
+            {isLoggedIn ? (
+              <a
+                href={hrefForPage("dashboard")}
+                onClick={(e) => {
+                  e.preventDefault();
+                  navigateTo("dashboard");
+                }}
+                className="nav-cta">
+                Dashboard →
+              </a>
+            ) : (
+              <a
+                href={hrefForPage("signup")}
+                onClick={(e) => {
+                  e.preventDefault();
+                  navigateTo("signup");
+                }}
+                className="nav-cta">
+                Get Started →
+              </a>
+            )}
           </div>
         </div>
       </nav>
@@ -506,7 +509,13 @@ export default function HomePage() {
                 across Meta Apps, and keep everyone notified in real time.
               </p>
               <div className="hero-actions">
-                <a href="#register" className="btn-primary">
+                <a
+                  href={hrefForPage("signup")}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    navigateTo("signup");
+                  }}
+                  className="btn-primary">
                   Register Your Store
                 </a>
                 <a href="#how" className="btn-ghost">

@@ -11,7 +11,7 @@ from rest_framework import status
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework_simplejwt.tokens import RefreshToken
+from .tokens import RefreshToken
 
 from .models import User, ClientProfile, FacebookPage
 from .serializers import (
@@ -131,10 +131,7 @@ class FacebookOAuthInitView(APIView):
         params = {
             'client_id': settings.FB_APP_ID,
             'redirect_uri': settings.FB_REDIRECT_URI,
-            'scope': (
-                'pages_show_list,pages_messaging,pages_read_engagement,'
-                'pages_manage_metadata,public_profile,email'
-            ),
+            'scope': 'pages_show_list,pages_messaging,public_profile,email',
             'response_type': 'code',
             'state': state,
         }

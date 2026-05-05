@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { T } from '../../../design/pages/subscription/designTokens.js'
 import { CheckIcon, CrossIcon } from './Icons.jsx'
 import { formatDA, toDzd } from '../../../utils/pages/subscription/money.js'
+import { navigateTo } from '../../../utils/navigation.js'
 
 export default function PlanCard({ plan, billing, idx }) {
   const [hovered, setHovered] = useState(false)
@@ -239,6 +240,7 @@ export default function PlanCard({ plan, billing, idx }) {
             e.currentTarget.style.color = T.text
           }
         }}
+        onClick={() => navigateTo('signup')}
       >
         {plan.id === 'starter' ? 'Start Free Trial' : plan.id === 'growth' ? 'Get Growth' : 'Go Pro →'}
       </button>

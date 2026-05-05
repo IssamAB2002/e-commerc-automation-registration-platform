@@ -101,10 +101,10 @@ export default function Nav({ scrolled }) {
             FAQ
           </a>
           <a
-            href={hrefForPage('home', '#register')}
+            href={hrefForPage('signup')}
             onClick={(e) => {
               e.preventDefault()
-              navigateTo('home', '#register')
+              navigateTo('signup')
             }}
             style={{
               background: T.cyan,
