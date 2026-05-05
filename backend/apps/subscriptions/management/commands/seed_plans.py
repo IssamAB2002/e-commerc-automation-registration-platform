@@ -61,17 +61,17 @@ class Command(BaseCommand):
             self.stdout.write('Groups already exist — skipping.')
             return
 
-        make_url = getattr(settings, 'MAKE_DEFAULT_WEBHOOK', '')
+        n8n_url = getattr(settings, 'N8N_DEFAULT_WEBHOOK', '')
         group = Group.objects.create(
             name='Alpha',
             capacity=15,
-            make_webhook_url=make_url,
+            n8n_webhook_url=n8n_url,
             meta_app_id='',
         )
         self.stdout.write(self.style.SUCCESS(f'Created initial group: {group.name}'))
         self.stdout.write(
             self.style.WARNING(
-                'Remember to set the Make.com webhook URL and Meta App ID for group Alpha '
-                'in the Django admin or via the MAKE_DEFAULT_WEBHOOK env variable.'
+                'Remember to set the n8n webhook URL and Meta App ID for group Alpha '
+                'in the Django admin or via the N8N_DEFAULT_WEBHOOK env variable.'
             )
         )

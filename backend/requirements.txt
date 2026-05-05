@@ -18,12 +18,12 @@ django-celery-beat==2.9.0
 django-storages==1.14.4
 Pillow==11.0.0
 
-# HTTP client (Make.com forwarding)
+# HTTP client (n8n forwarding)
 httpx==0.28.1
 requests==2.32.3
 
-# AI (Claude API)
-anthropic==0.98.0
+# AI (Gemini API)
+google-generativeai==0.8.3
 
 # Utilities
 django-filter==25.2

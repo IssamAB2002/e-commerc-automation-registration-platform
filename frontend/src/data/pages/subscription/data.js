@@ -12,7 +12,7 @@ export const PLANS = [
     popular: false,
     group: '1 Group (up to 1 store)',
     features: [
-      { label: '1 Make.com Workflow', ok: true },
+      { label: '1 n8n Workflow', ok: true },
       { label: '1 Meta App', ok: true },
       { label: 'Up to 1 client store', ok: true },
       { label: '2,000 AI messages / mo', ok: true },
@@ -35,7 +35,7 @@ export const PLANS = [
     popular: true,
     group: 'Up to 3 Groups (15 stores each)',
     features: [
-      { label: '3 Make.com Workflows', ok: true },
+      { label: '3 n8n Workflows', ok: true },
       { label: '3 Meta Apps', ok: true },
       { label: 'Up to 45 client stores', ok: true },
       { label: '15,000 AI messages / mo', ok: true },
@@ -73,7 +73,7 @@ export const PLANS = [
 ]
 
 export const COMPARE_ROWS = [
-  { cat: 'Automation', label: 'Make.com Workflows', starter: '1', growth: '3', pro: 'Unlimited' },
+  { cat: 'Automation', label: 'n8n Workflows', starter: '1', growth: '3', pro: 'Unlimited' },
   { cat: 'Automation', label: 'Meta App Instances', starter: '1', growth: '3', pro: 'Unlimited' },
   { cat: 'Capacity', label: 'Client Stores', starter: '1', growth: '45', pro: 'Unlimited' },
   { cat: 'Capacity', label: 'AI Messages / mo', starter: '2,000', growth: '15,000', pro: '100,000' },
@@ -92,7 +92,7 @@ export const COMPARE_ROWS = [
 export const FAQS = [
   {
     q: 'What happens when a group reaches 15 clients?',
-    a: 'A new Make.com workflow and dedicated Meta App are automatically provisioned. Your next client registration goes into the fresh group — zero manual action needed.',
+    a: 'A new n8n workflow and dedicated Meta App are automatically provisioned. Your next client registration goes into the fresh group — zero manual action needed.',
   },
   {
     q: 'Can I upgrade or downgrade my plan anytime?',
@@ -108,6 +108,6 @@ export const FAQS = [
   },
   {
     q: 'What AI model powers the automation?',
-    a: "The messaging automation is powered by Claude (Anthropic's API) with multi-turn conversation memory persisted by sender ID across sessions.",
+    a: "The messaging automation is powered by Gemini (Google's API) with multi-turn conversation memory persisted by sender ID across sessions.",
   },
 ]

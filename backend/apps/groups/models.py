@@ -6,7 +6,7 @@ class Group(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=100, unique=True)
     capacity = models.IntegerField(default=15)
-    make_webhook_url = models.URLField(blank=True)
+    n8n_webhook_url = models.URLField(blank=True)
     meta_app_id = models.CharField(max_length=100, blank=True)
     is_active = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)

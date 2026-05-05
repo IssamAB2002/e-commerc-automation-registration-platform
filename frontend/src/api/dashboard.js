@@ -17,6 +17,9 @@ export const deleteProduct = (id) =>
 export const toggleProductStatus = (id) =>
   request(`/api/products/${id}/status/`, { method: 'PATCH' })
 
+export const generateDescription = (id) =>
+  request(`/api/products/${id}/generate-description/`, { method: 'POST' })
+
 // ── Transformers — map API shapes to what the UI expects ──────────────────────
 
 function formatDate(iso) {

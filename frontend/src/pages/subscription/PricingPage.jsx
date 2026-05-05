@@ -111,7 +111,7 @@ export default function SubscriptionPlatformPage() {
                 marginBottom: "2rem",
                 animation: "fadeup .85s .16s ease both",
               }}>
-              Every plan includes auto group assignment, Make.com integration,
+              Every plan includes auto group assignment, n8n integration,
               and Meta API distribution. Pick the scale that matches your client
               roster.
             </p>

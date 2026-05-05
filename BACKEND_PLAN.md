@@ -2,15 +2,15 @@
 
 ## 1. Overview
 
-This backend fully serves the existing React frontend (all mock data replaced by real API calls) and implements the core SaaS automation logic: clients register, get auto-assigned to a group (1 group = 1 Make.com workflow = 1 Meta App = 15 clients max), and their Facebook Pages receive AI-powered auto-replies via Make.com.
+This backend fully serves the existing React frontend (all mock data replaced by real API calls) and implements the core SaaS automation logic: clients register, get auto-assigned to a group (1 group = 1 n8n workflow = 1 Meta App = 15 clients max), and their Facebook Pages receive AI-powered auto-replies via n8n.
 
 **Runtime**: Django 6.0 + Django REST Framework  
 **Database**: PostgreSQL  
 **Auth**: JWT (SimpleJWT) + Facebook OAuth  
 **Async tasks**: Celery + Redis  
-**AI**: Claude API (Anthropic) for product description generation  
+**AI**: Gemini API (Google) for product description generation  
 **Webhook source**: Meta Graph API  
-**Automation target**: Make.com (webhook per group)
+**Automation target**: n8n (webhook per group)
 
 ---
 
@@ -40,11 +40,11 @@ django-celery-beat==2.7.x        # Periodic tasks (optional for stats refresh)
 django-storages==1.14.x          # S3 or local storage abstraction
 Pillow==11.x                     # Image processing
 
-# HTTP client (forwarding to Make.com)
+# HTTP client (forwarding to n8n)
 httpx==0.27.x                    # Async-capable HTTP client
 
 # AI
-anthropic==0.40.x                # Claude API for product descriptions
+google-generativeai==0.8.x       # Gemini API for product descriptions
 
 # Utilities
 django-filter==24.x              # Filtering on list endpoints
@@ -79,7 +79,7 @@ backend/
 ├── apps/
 │   ├── accounts/                 # Users, auth, Facebook OAuth, onboarding
 │   ├── subscriptions/            # Plans, client subscriptions, activation codes
-│   ├── groups/                   # Group management, Make.com integration
+│   ├── groups/                   # Group management, n8n integration
 │   ├── products/                 # Product CRUD + AI description
 │   ├── conversations/            # Conversation & message storage
 │   ├── activity/                 # Activity log per client
@@ -120,11 +120,11 @@ FB_APP_SECRET=your_meta_app_secret
 FB_WEBHOOK_VERIFY_TOKEN=your_random_verify_token
 FB_REDIRECT_URI=http://localhost:8000/api/auth/facebook/callback/
 
-# Make.com (default fallback; per-group URLs stored in DB)
-MAKE_DEFAULT_WEBHOOK=https://hook.make.com/xxxxx
+# n8n (default fallback; per-group URLs stored in DB)
+N8N_DEFAULT_WEBHOOK=https://your-n8n-instance/webhook/xxxxx
 
-# Anthropic (Claude API)
-ANTHROPIC_API_KEY=sk-ant-xxxxxxx
+# Gemini (Gemini API)
+GEMINI_API_KEY=your-gemini-api-key-here
 
 # Frontend URL (for CORS and OAuth redirects)
 FRONTEND_URL=http://localhost:5173
@@ -293,7 +293,7 @@ class ActivationCode(Model):
 
     # Code format: ECA-{4 alphanum}-{4 alphanum}-{4 alphanum}
     # Generated on: subscription activation
-    # Purpose: client pastes this into their messaging flow on Make.com to verify identity
+    # Purpose: client pastes this into their messaging flow on n8n to verify identity
 ```
 
 ### 5.3 `apps/groups/models.py`
@@ -304,7 +304,7 @@ class Group(Model):
     id             = UUIDField(primary_key=True, default=uuid4, editable=False)
     name           = CharField(max_length=100)     # "Alpha", "Beta", "Gamma"…
     capacity       = IntegerField(default=15)       # max clients per group
-    make_webhook_url = URLField()                   # the Make.com webhook for this group
+    n8n_webhook_url  = URLField()                   # the n8n webhook for this group
     meta_app_id    = CharField(max_length=100)      # associated Meta App ID
     is_active      = BooleanField(default=True)
     created_at     = DateTimeField(auto_now_add=True)
@@ -370,7 +370,7 @@ class Conversation(Model):
     facebook_page  = ForeignKey('accounts.FacebookPage', on_delete=CASCADE)
     sender_fb_id   = CharField(max_length=100)       # FB PSID of the customer
     sender_name    = CharField(max_length=200, blank=True)
-    topic          = CharField(max_length=300, blank=True)  # inferred by AI or Make.com
+    topic          = CharField(max_length=300, blank=True)  # inferred by AI or n8n
     outcome        = CharField(max_length=300, blank=True)  # e.g. "Order placed"
     sentiment      = CharField(max_length=10, choices=SENTIMENT, default='neutral')
     message_count  = IntegerField(default=0)
@@ -441,7 +441,7 @@ class WebhookLog(Model):
     page_id      = CharField(max_length=100)
     sender_id    = CharField(max_length=100, blank=True)
     payload      = JSONField()                      # full Meta webhook payload
-    forwarded_to = URLField(blank=True)             # Make.com URL used
+    forwarded_to = URLField(blank=True)             # n8n URL used
     status       = CharField(max_length=20, choices=STATUS, default='received')
     attempts     = IntegerField(default=0)
     error_detail = TextField(blank=True)
@@ -537,7 +537,7 @@ On success: auto-assigns client to a group, creates activation code, creates sub
 | PATCH | `/api/clients/me/` | JWT | Update profile fields (company, niche, phone, etc.) |
 | GET | `/api/clients/me/code/` | JWT | Get activation code details |
 | GET | `/api/clients/me/usage/` | JWT | Get current period usage stats |
-| GET | `/api/clients/me/group/` | JWT | Get group details (name, capacity, make_url) |
+| GET | `/api/clients/me/group/` | JWT | Get group details (name, capacity, n8n_url) |
 | GET | `/api/clients/me/activity/` | JWT | Paginated activity log |
 | GET | `/api/clients/me/facebook-pages/` | JWT | List connected Facebook pages |
 | DELETE | `/api/clients/me/facebook-pages/{page_id}/` | JWT | Disconnect a page |
@@ -601,7 +601,7 @@ On success: auto-assigns client to a group, creates activation code, creates sub
 Image uploaded as multipart form field `image`.
 
 **AI Description Generation** (POST `.../generate-description/`):
-- Calls Anthropic Claude API (claude-sonnet-4-6)
+- Calls Gemini API (gemini-2.0-flash)
 - Prompt: product name + category → returns 2–3 sentence marketing description
 - Sets `is_ai_generated=True`
 - Task handled by Celery (async) so endpoint returns 202 + task_id
@@ -651,11 +651,11 @@ Image uploaded as multipart form field `image`.
 1. Validate `X-Hub-Signature-256` header against `FB_APP_SECRET`
 2. Immediately return `HTTP 200` to Meta
 3. Dispatch Celery task `process_facebook_message.delay(payload)`
-4. Task: look up `FacebookPage` by `page_id` → find `ClientProfile` → find `Group` → forward to `group.make_webhook_url`
+4. Task: look up `FacebookPage` by `page_id` → find `ClientProfile` → find `Group` → forward to `group.n8n_webhook_url`
 5. Forward payload: `{ sender_id, recipient_id (page_id), message_text, timestamp, page_token, client_id }`
 6. Log to `WebhookLog`, increment usage counter
 
-**Payload forwarded to Make.com**:
+**Payload forwarded to n8n**:
 ```json
 {
   "sender_id": "FB_PSID",
@@ -675,7 +675,7 @@ Image uploaded as multipart form field `image`.
 | GET | `/api/subscriptions/plans/` | Public | List all plans (used by PricingPage) |
 | GET | `/api/subscriptions/me/` | JWT | Current client subscription |
 | POST | `/api/subscriptions/upgrade/` | JWT | Request plan upgrade |
-| POST | `/api/subscriptions/validate-code/` | Public | Validate an activation code (used by Make.com) |
+| POST | `/api/subscriptions/validate-code/` | Public | Validate an activation code (used by n8n) |
 | POST | `/api/subscriptions/generate-code/` | Admin | Re-generate activation code for a client |
 
 **Validate Code** (POST `/api/subscriptions/validate-code/`):
@@ -689,7 +689,7 @@ Response: `{ "valid": true, "client_id": "uuid", "plan": "growth" }` or `{ "vali
 | Method | URL | Auth | Description |
 |--------|-----|------|-------------|
 | GET | `/api/groups/` | Admin | List all groups with client counts |
-| POST | `/api/groups/` | Admin | Create a new group (with make_webhook_url) |
+| POST | `/api/groups/` | Admin | Create a new group (with n8n_webhook_url) |
 | PATCH | `/api/groups/{id}/` | Admin | Update group (webhook URL, meta_app_id) |
 | GET | `/api/groups/{id}/clients/` | Admin | List clients in a group |
 
@@ -822,7 +822,7 @@ class GroupAssignmentService:
         name = GROUP_NAMES[count] if count < len(GROUP_NAMES) else f"Group-{count+1}"
         group = Group.objects.create(
             name=name,
-            make_webhook_url=settings.MAKE_DEFAULT_WEBHOOK,  # admin updates later
+            n8n_webhook_url=settings.N8N_DEFAULT_WEBHOOK,  # admin updates later
             meta_app_id='',  # admin fills in
         )
         # TODO: notify admin via email/Slack that a new group needs configuration
@@ -862,22 +862,17 @@ def create_activation_code(client: ClientProfile) -> ActivationCode:
 ```python
 @shared_task(bind=True, max_retries=3)
 def generate_product_description(self, product_id: str):
-    """Call Claude API to generate marketing description for a product."""
+    """Call Gemini API to generate marketing description for a product."""
     product = Product.objects.get(id=product_id)
-    client = anthropic.Anthropic(api_key=settings.ANTHROPIC_API_KEY)
-    message = client.messages.create(
-        model="claude-sonnet-4-6",
-        max_tokens=300,
-        messages=[{
-            "role": "user",
-            "content": (
-                f"Write a compelling 2-3 sentence product description for an e-commerce store. "
-                f"Product: {product.name}. Category: {product.get_category_display()}. "
-                f"Make it persuasive, friendly, and concise. No markdown."
-            )
-        }]
+    import google.generativeai as genai
+    genai.configure(api_key=settings.GEMINI_API_KEY)
+    model = genai.GenerativeModel('gemini-2.0-flash')
+    response = model.generate_content(
+        f"Write a compelling 2-3 sentence product description for an e-commerce store. "
+        f"Product: {product.name}. Category: {product.get_category_display()}. "
+        f"Make it persuasive, friendly, and concise. No markdown."
     )
-    product.description = message.content[0].text
+    product.description = response.text
     product.is_ai_generated = True
     product.save(update_fields=['description', 'is_ai_generated'])
     ActivityLog.objects.create(
@@ -892,7 +887,7 @@ def generate_product_description(self, product_id: str):
 ```python
 @shared_task(bind=True, max_retries=3, default_retry_delay=5)
 def process_facebook_message(self, payload: dict):
-    """Route a Facebook Messenger event to the correct Make.com webhook."""
+    """Route a Facebook Messenger event to the correct n8n webhook."""
     try:
         entry = payload['entry'][0]
         messaging = entry['messaging'][0]
@@ -906,7 +901,7 @@ def process_facebook_message(self, payload: dict):
         client = page.client
         group  = client.group
 
-        webhook_url = group.make_webhook_url if group else settings.MAKE_DEFAULT_WEBHOOK
+        webhook_url = group.n8n_webhook_url if group else settings.N8N_DEFAULT_WEBHOOK
 
         forward_payload = {
             'sender_id':    sender_id,
@@ -1059,7 +1054,7 @@ class ClientProfileAdmin(ModelAdmin):
 @admin.register(Group)
 class GroupAdmin(ModelAdmin):
     list_display = ['name', 'current_count', 'capacity', 'is_active', 'meta_app_id']
-    list_editable= ['make_webhook_url', 'meta_app_id']
+    list_editable= ['n8n_webhook_url', 'meta_app_id']
 
 @admin.register(WebhookLog)
 class WebhookLogAdmin(ModelAdmin):
@@ -1082,7 +1077,7 @@ class WebhookLogAdmin(ModelAdmin):
 6. `subscriptions` app: `Plan`, `Subscription`, `ActivationCode` models
 7. `groups` app: `Group` model + `GroupAssignmentService`
 8. Complete registration flow: onboarding → group assignment → activation code
-9. Activation code validation endpoint (for Make.com calls)
+9. Activation code validation endpoint (for n8n calls)
 10. Seed `Plan` and initial `Group` fixtures
 
 ### Phase 3 — Facebook Integration (Week 2)

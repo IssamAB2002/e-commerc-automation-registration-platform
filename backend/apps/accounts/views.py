@@ -344,6 +344,6 @@ class ClientGroupView(APIView):
             'name': group.name,
             'capacity': group.capacity,
             'current_count': group.clients.filter(is_active=True).count(),
-            'make_webhook_url': group.make_webhook_url,
+            'n8n_webhook_url': group.n8n_webhook_url,
             'meta_app_id': group.meta_app_id,
         })

@@ -12,7 +12,7 @@ logger = logging.getLogger(__name__)
 @shared_task(bind=True, max_retries=3, default_retry_delay=5)
 def process_facebook_message(self, payload: dict, log_id: str = None):
     """
-    Route an incoming Facebook Messenger event to the correct Make.com webhook.
+    Route an incoming Facebook Messenger event to the correct n8n webhook.
     Called immediately after returning 200 to Meta.
     """
     from apps.accounts.models import FacebookPage
@@ -47,9 +47,9 @@ def process_facebook_message(self, payload: dict, log_id: str = None):
         client = page.client
         group = client.group
         webhook_url = (
-            group.make_webhook_url
-            if group and group.make_webhook_url
-            else settings.MAKE_DEFAULT_WEBHOOK
+            group.n8n_webhook_url
+            if group and group.n8n_webhook_url
+            else settings.N8N_DEFAULT_WEBHOOK
         )
 
         forward_payload = {

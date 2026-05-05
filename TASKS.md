@@ -12,40 +12,40 @@
 ## Phase 2 — Auth Pages
 
 ### SignUpPage.jsx
-- [ ] Wire email/password register form → `POST /api/auth/register/`
-- [ ] Wire Facebook button → `GET /api/auth/facebook/` then redirect to returned `auth_url`
-- [ ] Wire onboarding form → `POST /api/auth/onboarding/` then navigate to dashboard
+- [x] ~~Wire email/password register form → `POST /api/auth/register/`~~
+- [x] ~~Wire Facebook button → `GET /api/auth/facebook/` then redirect to returned `auth_url`~~
+- [x] ~~Wire onboarding form → `POST /api/auth/onboarding/` then navigate to dashboard~~
 
 ### SignInPage.jsx
-- [ ] Wire email/password login form → `POST /api/auth/login/`
-- [ ] Wire Facebook button → `GET /api/auth/facebook/` then redirect to returned `auth_url`
+- [x] ~~Wire email/password login form → `POST /api/auth/login/`~~
+- [x] ~~Wire Facebook button → `GET /api/auth/facebook/` then redirect to returned `auth_url`~~
 
 ---
 
 ## Phase 3 — Dashboard Page
 
 ### Data fetching
-- [ ] Add `DashboardContext` to `DashboardPage.jsx` to share fetched data with all sub-components
-- [ ] Fetch real profile data on load → replace `CLIENT` mock
-- [ ] Fetch real products on load → replace `MOCK_PRODUCTS`
-- [ ] Fetch real conversations on load → replace `MOCK_CONVOS`
-- [ ] Fetch real activity on load → replace `MOCK_ACTIVITY`
+- [x] ~~Add `DashboardContext` to `DashboardPage.jsx` to share fetched data with all sub-components~~
+- [x] ~~Fetch real profile data on load → replace `CLIENT` mock~~
+- [x] ~~Fetch real products on load → replace `MOCK_PRODUCTS`~~
+- [x] ~~Fetch real conversations on load → replace `MOCK_CONVOS`~~
+- [x] ~~Fetch real activity on load → replace `MOCK_ACTIVITY`~~
 
 ### Product actions
-- [ ] Wire "Add Product" modal → `POST /api/products/`
-- [ ] Wire delete button → `DELETE /api/products/{id}/`
-- [ ] Wire Pause/Activate toggle → `PATCH /api/products/{id}/status/`
-- [ ] Wire "Generate with AI" button → `POST /api/products/{id}/generate-description/`
+- [x] ~~Wire "Add Product" modal → `POST /api/products/`~~
+- [x] ~~Wire delete button → `DELETE /api/products/{id}/`~~
+- [x] ~~Wire Pause/Activate toggle → `PATCH /api/products/{id}/status/`~~
+- [x] ~~Wire "Generate with AI" button → `POST /api/products/{id}/generate-description/`~~
 
 ### Other
-- [ ] Wire logout button in Sidebar → `POST /api/auth/logout/` then redirect to home
+- [x] ~~Wire logout button in Sidebar → `POST /api/auth/logout/` then redirect to home~~
 
 ---
 
 ## Phase 4 — External Setup (manual actions required)
 
-- [ ] Set `ANTHROPIC_API_KEY` in `backend/.env` (needed for AI product description generation)
-- [ ] Create Make.com scenario that receives webhook payload → calls AI → replies via Messenger API
-- [ ] Set the Make.com webhook URL on Group Alpha (via Django admin at `http://localhost:8000/admin/`)
+- [ ] Set `GEMINI_API_KEY` in `backend/.env` (needed for AI product description generation)
+- [ ] Create n8n workflow that receives webhook payload → calls AI → replies via Messenger API
+- [ ] Set the n8n webhook URL on Group Alpha (via Django admin at `http://localhost:8000/admin/`)
 - [ ] Register Facebook App webhook in Meta Developer Console → point to `https://yourdomain.com/api/webhooks/facebook/`
 - [ ] Set verify token in Meta console to match `FB_WEBHOOK_VERIFY_TOKEN` in `.env`

@@ -10,5 +10,5 @@ class GroupSerializer(serializers.ModelSerializer):
         model = Group
         fields = [
             'id', 'name', 'capacity', 'current_count', 'is_full',
-            'make_webhook_url', 'meta_app_id', 'is_active', 'created_at',
+            'n8n_webhook_url', 'meta_app_id', 'is_active', 'created_at',
         ]

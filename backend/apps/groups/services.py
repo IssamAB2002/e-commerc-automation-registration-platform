@@ -43,6 +43,6 @@ class GroupAssignmentService:
 
         return Group.objects.create(
             name=name,
-            make_webhook_url=getattr(settings, 'MAKE_DEFAULT_WEBHOOK', ''),
+            n8n_webhook_url=getattr(settings, 'N8N_DEFAULT_WEBHOOK', ''),
             meta_app_id='',
         )

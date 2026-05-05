@@ -17,27 +17,21 @@ def generate_product_description(self, product_id: str):
         logger.error('Product %s not found for description generation.', product_id)
         return
 
-    api_key = settings.ANTHROPIC_API_KEY
+    api_key = settings.GEMINI_API_KEY
     if not api_key:
-        logger.warning('ANTHROPIC_API_KEY not set — skipping AI description.')
+        logger.warning('GEMINI_API_KEY not set — skipping AI description.')
         return
 
     try:
-        import anthropic
-        client = anthropic.Anthropic(api_key=api_key)
-        message = client.messages.create(
-            model='claude-sonnet-4-6',
-            max_tokens=300,
-            messages=[{
-                'role': 'user',
-                'content': (
-                    f'Write a compelling 2-3 sentence product description for an e-commerce store. '
-                    f'Product: {product.name}. Category: {product.get_category_display()}. '
-                    f'Make it persuasive, friendly, and concise. No markdown, no bullet points.'
-                ),
-            }],
+        import google.generativeai as genai
+        genai.configure(api_key=api_key)
+        model = genai.GenerativeModel('gemini-2.0-flash')
+        response = model.generate_content(
+            f'Write a compelling 2-3 sentence product description for an e-commerce store. '
+            f'Product: {product.name}. Category: {product.get_category_display()}. '
+            f'Make it persuasive, friendly, and concise. No markdown, no bullet points.'
         )
-        product.description = message.content[0].text.strip()
+        product.description = response.text.strip()
         product.is_ai_generated = True
         product.save(update_fields=['description', 'is_ai_generated'])
 

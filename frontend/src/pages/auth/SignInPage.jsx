@@ -5,20 +5,10 @@ import AuthNav from '../../components/pages/auth/AuthNav.jsx'
 import AuthInput from '../../components/pages/auth/AuthInput.jsx'
 import AuthButton from '../../components/pages/auth/AuthButton.jsx'
 import { navigateTo } from '../../utils/navigation.js'
+import { login, getFacebookAuthUrl, saveAuthTokens } from '../../api/auth.js'
 import '../../styles/pages/auth/auth.css'
 
-const FB_APP_ID = 'YOUR_FACEBOOK_APP_ID'
-const FB_REDIRECT_URI = 'https://yourdomain.com/auth/facebook/callback'
-
-const FB_SCOPE = [
-  'pages_show_list',
-  'pages_messaging',
-  'pages_read_engagement',
-  'public_profile',
-  'email',
-].join(',')
-
-export default function SignInPage() {
+export default function SignInPage({ onNavigate }) {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [errors, setErrors] = useState({})
@@ -48,30 +38,27 @@ export default function SignInPage() {
     setErrors({})
 
     try {
-      // TODO: Replace with actual API call
-      await new Promise(resolve => setTimeout(resolve, 1500))
-      console.log('Sign In:', { email, password, rememberMe })
-      // Redirect to dashboard after successful login
-      // navigateTo('dashboard')
+      const data = await login(email, password)
+      saveAuthTokens(data)
+      if (onNavigate) onNavigate('dashboard')
+      else navigateTo('dashboard')
     } catch (err) {
-      setErrors({ general: 'Sign in failed. Please try again.' })
+      const msg = err?.detail || err?.non_field_errors?.[0] || 'Sign in failed. Please try again.'
+      setErrors({ general: msg })
     } finally {
       setIsLoading(false)
     }
   }
 
-  const handleFacebookSignIn = () => {
+  const handleFacebookSignIn = async () => {
     setIsFacebookLoading(true)
-
-    const params = new URLSearchParams({
-      client_id: FB_APP_ID,
-      redirect_uri: FB_REDIRECT_URI,
-      scope: FB_SCOPE,
-      response_type: 'code',
-      state: 'signin',
-    })
-
-    window.location.href = `https://www.facebook.com/v19.0/dialog/oauth?${params.toString()}`
+    try {
+      const data = await getFacebookAuthUrl()
+      window.location.href = data.auth_url
+    } catch {
+      setErrors({ general: 'Could not initiate Facebook login. Please try again.' })
+      setIsFacebookLoading(false)
+    }
   }
 
   return (

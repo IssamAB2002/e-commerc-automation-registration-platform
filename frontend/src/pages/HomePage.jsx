@@ -278,7 +278,7 @@ export default function HomePage() {
       "Load Balancing",
       "Real-Time Notifications",
       "Meta App Distribution",
-      "Make.com Integration",
+      "n8n Integration",
       "AI Message Automation",
       "Client Dashboard",
     ],
@@ -320,7 +320,7 @@ export default function HomePage() {
       iconClass: "c2",
       icon: <StepIcon2 />,
       title: "Auto Group Placement",
-      body: `The platform auto-assigns each client to a workflow group of 15 clients, balancing load across Make.com workflows and Meta Apps.`,
+      body: `The platform auto-assigns each client to a workflow group of 15 clients, balancing load across n8n workflows and Meta Apps.`,
     },
     {
       num: "03",
@@ -336,7 +336,7 @@ export default function HomePage() {
       key: "g1",
       name: "Group Alpha",
       nameColor: "var(--cyan)",
-      cap: "Make Workflow #1 · Meta App A",
+      cap: "n8n Workflow #1 · Meta App A",
       badge: "12 / 15",
       badgeClass: "nb-active",
       fillClass: "gf1",
@@ -346,7 +346,7 @@ export default function HomePage() {
       key: "g2",
       name: "Group Beta",
       nameColor: "var(--orange)",
-      cap: "Make Workflow #2 · Meta App B",
+      cap: "n8n Workflow #2 · Meta App B",
       badge: "9 / 15",
       badgeClass: "nb-pending",
       fillClass: "gf2",
@@ -356,7 +356,7 @@ export default function HomePage() {
       key: "g3",
       name: "Group Gamma",
       nameColor: "#9b64ff",
-      cap: "Make Workflow #3 · Meta App C",
+      cap: "n8n Workflow #3 · Meta App C",
       badge: "6 / 15",
       badgeStyle: { background: "rgba(155,100,255,0.1)", color: "#9b64ff" },
       fillClass: "gf3",
@@ -538,7 +538,7 @@ export default function HomePage() {
                       <FlowIconWorkflow />
                     </div>
                     <div className="node-info">
-                      <div className="node-label">Make.com Workflow</div>
+                      <div className="node-label">n8n Workflow</div>
                       <div className="node-sub">Group A · 12 / 15 clients</div>
                     </div>
                     <span className="node-badge nb-pending">Running</span>
@@ -641,7 +641,7 @@ export default function HomePage() {
                     <CheckIcon />
                   </div>
                   <div>
-                    <h4>15 clients per Make.com workflow</h4>
+                    <h4>15 clients per n8n workflow</h4>
                     <p>
                       Prevents workflow overloading and keeps execution times
                       predictable and fast.

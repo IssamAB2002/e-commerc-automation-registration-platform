@@ -167,11 +167,11 @@ FB_WEBHOOK_VERIFY_TOKEN = env('FB_WEBHOOK_VERIFY_TOKEN', default='ecomauto_verif
 FB_REDIRECT_URI = env('FB_REDIRECT_URI', default='http://localhost:8000/api/auth/facebook/callback/')
 FB_GRAPH_VERSION = 'v19.0'
 
-# --- Make.com ---
-MAKE_DEFAULT_WEBHOOK = env('MAKE_DEFAULT_WEBHOOK', default='')
+# --- n8n ---
+N8N_DEFAULT_WEBHOOK = env('N8N_DEFAULT_WEBHOOK', default='')
 
-# --- Anthropic ---
-ANTHROPIC_API_KEY = env('ANTHROPIC_API_KEY', default='')
+# --- Gemini ---
+GEMINI_API_KEY = env('GEMINI_API_KEY', default='')
 
 # --- Frontend ---
 FRONTEND_URL = env('FRONTEND_URL', default='http://localhost:5173')

@@ -5,9 +5,10 @@ import AuthNav from '../../components/pages/auth/AuthNav.jsx'
 import AuthInput from '../../components/pages/auth/AuthInput.jsx'
 import AuthButton from '../../components/pages/auth/AuthButton.jsx'
 import { navigateTo } from '../../utils/navigation.js'
+import { register, onboarding, getFacebookAuthUrl, saveAuthTokens } from '../../api/auth.js'
 import '../../styles/pages/auth/auth.css'
 
-export default function SignUpPage() {
+export default function SignUpPage({ onNavigate }) {
   const [step, setStep] = useState('signup') // 'signup' | 'onboarding'
   const [formData, setFormData] = useState({
     firstName: '',
@@ -88,12 +89,10 @@ export default function SignUpPage() {
     setErrors({})
 
     try {
-      // TODO: Replace with real Facebook OAuth/SDK flow
-      await new Promise(resolve => setTimeout(resolve, 1500))
-      setStep('onboarding')
-    } catch (err) {
-      setErrors({ general: 'Facebook login failed. Please try again.' })
-    } finally {
+      const data = await getFacebookAuthUrl()
+      window.location.href = data.auth_url
+    } catch {
+      setErrors({ general: 'Could not initiate Facebook login. Please try again.' })
       setIsLoading(false)
     }
   }
@@ -111,12 +110,12 @@ export default function SignUpPage() {
     setErrors({})
 
     try {
-      // TODO: Replace with actual API call
-      await new Promise(resolve => setTimeout(resolve, 2000))
-      console.log('Sign Up:', { ...formData, agreedToMarketing })
+      const data = await register({ ...formData, agreedToMarketing })
+      saveAuthTokens(data)
       setStep('onboarding')
     } catch (err) {
-      setErrors({ general: 'Sign up failed. Please try again.' })
+      const msg = err?.email?.[0] || err?.password?.[0] || err?.detail || 'Sign up failed. Please try again.'
+      setErrors({ general: msg })
     } finally {
       setIsLoading(false)
     }
@@ -135,12 +134,12 @@ export default function SignUpPage() {
     setErrors({})
 
     try {
-      // TODO: Submit onboarding data to your API
-      await new Promise(resolve => setTimeout(resolve, 1500))
-      console.log('Onboarding Data:', onboardingData)
-      // navigateTo('dashboard')
+      await onboarding(onboardingData)
+      if (onNavigate) onNavigate('dashboard')
+      else navigateTo('dashboard')
     } catch (err) {
-      setErrors({ general: 'Failed to save your information. Please try again.' })
+      const msg = err?.detail || 'Failed to save your information. Please try again.'
+      setErrors({ general: msg })
     } finally {
       setIsLoading(false)
     }

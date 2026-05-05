@@ -29,7 +29,7 @@ class MySubscriptionView(APIView):
 
 
 class ValidateCodeView(APIView):
-    """Called by Make.com to verify a client's activation code."""
+    """Called by n8n to verify a client's activation code."""
     permission_classes = [AllowAny]
 
     def post(self, request):
